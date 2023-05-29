@@ -1,26 +1,44 @@
+Ôªøusing System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int maxHealth; // ÛÒÚ‡Ì‡‚ÎË‚‡ÂÏ Ó„‡ÌË˜ÂÌËÂ ÔÓ Á‡‰‡ÌÌÓÏÛ Á‰ÓÓ‚¸˛
+    [SerializeField] private int _maxHealth; // —É—Å—Ç–∞–Ω–∞–≤–ª–∏–≤–∞–µ–º –æ–≥—Ä–∞–Ω–∏—á–µ–Ω–∏–µ –ø–æ –∑–∞–¥–∞–Ω–Ω–æ–º—É –∑–¥–æ—Ä–æ–≤—å—é
 
-    private int health; // Á‰ÓÓ‚¸Â Ë„ÓÍ‡
+    private int _health; // –∑–¥–æ—Ä–æ–≤—å–µ –∏–≥—Ä–æ–∫–∞
 
-    public int Health => health;
-    public int MaxHealth => maxHealth;  
+    public event Action<int> OnHealthChange; // –∏–≤–µ–Ω—Ç –¥–ª—è –≤—ã–∑–æ–≤–∞ –≤ —Å–ª—É—á–∞–µ –∏–∑–º–µ–Ω–µ–Ω–∏—è –∑–¥–æ—Ä–æ–≤—å—è –∏–≥—Ä–æ–∫–∞
 
-    // «‡ÔÛÒÍ‡ÂÚÒˇ ÔË ÒÚ‡ÚÂ ÒˆÂÌ˚
-    private void Start()
-    {
-        health = maxHealth; // Á‰ÓÓ‚¸Â Ì‡ Ï‡ÍÒËÏ‡Î¸ÌÓ Á‡‰‡ÌÌÓÂ
+    public int Health {
+        get => _health; // –ø–æ–ª—É—á–µ–Ω–∏—è –∑–Ω–∞—á–µ–Ω–∏—è –∑–¥–æ—Ä–æ–≤—å—è
+        private set // –∏–∑–º–µ–Ω–µ–Ω–∏—è –∑–¥–æ—Ä–æ–≤—å—è —Ç–æ–ª—å–∫–æ –≤ –¥–∞–Ω–Ω–æ–º –∫–ª–∞—Å—Å–µ
+        {
+            _health = value;
+            OnHealthChange?.Invoke(_health); // –≤—ã–∑–æ–≤ –º–µ—Ç–æ–¥–∞ –æ–±–Ω–æ–≤–ª–µ–Ω–∏—è health bar'a 
+        }
     }
 
-    // ÙÛÌÍˆËˇ ‚˚Á˚‚‡ÂÚÒˇ ÔÓ Ì‡Ê‡ÚË˛ ÍÌÓÔÍË Ë ËÁÏÂÌˇÂÚ Á‰ÓÓ‚¸Â Ì‡ 10 Ë -10
-    public void ChangeAmountHealth(int amount)
+    public int MaxHealth => _maxHealth; // –ø–æ–ª—É—á–µ–Ω–∏—è –∑–Ω–∞—á–µ–Ω–∏—è –º–∞–∫—Å–∏–º–∞–ª—å–Ω–æ–≥–æ –∑–¥–æ—Ä–æ–≤—å—è
+
+    // –ó–∞–ø—É—Å–∫–∞–µ—Ç—Å—è –ø—Ä–∏ —Å—Ç–∞—Ä—Ç–µ —Å–∫—Ä–∏–ø—Ç–∞
+    private void Awake()
     {
-        Debug.Log(health); // ‚˚‚Ó‰ ËÌÙÓÏ‡ˆËË Ó· ÓÒÚ‡‚¯ÂÏÒˇ Á‰ÓÓ‚¸Â
-        if (health + amount > maxHealth || health + amount < 0) // Ó„‡ÌË˜ÂÌËÂ Ì‡ Ï‡ÍÒËÏ‡Î¸ÌÓ Ë ÏËÌËÏ‡Î¸ÌÓ Á‡‰‡ÌÌÓÂ Á‰ÓÓ‚¸Â (ÌÂ ·ÓÎÂÂ N Ë ÌÂ ÏÂÌÂÂ 0)
+        _health = _maxHealth; // –∑–¥–æ—Ä–æ–≤—å–µ –Ω–∞ –º–∞–∫—Å–∏–º–∞–ª—å–Ω–æ –∑–∞–¥–∞–Ω–Ω–æ–µ
+    }
+
+    // –û—Ç–Ω—è—Ç—å –∑–¥–æ—Ä–æ–≤—å–µ
+    public void TakeDamage(int amount)
+    {
+        if (_health - amount < 0) // –æ–≥—Ä–∞–Ω–∏—á–µ–Ω–∏–µ –Ω–∞ –º–∏–Ω–∏–º–∞–ª—å–Ω–æ–µ –∑–¥–æ—Ä–æ–≤—å–µ
             return;
-        health += amount; // ËÁÏÂÌˇÂÚ Á‰ÓÓ‚¸Â Ì‡ Á‡‰‡ÌÌÓÂ
+        Health -= amount; // –æ—Ç–Ω–∏–º–∞–Ω–∏–µ –∑–¥–æ—Ä–æ–≤—å—è
+    }
+
+    // –î–æ–±–∞–≤–∏—Ç—å –∑–¥–æ—Ä–æ–≤—å–µ
+    public void AddHealth(int amount)
+    {
+        if (_health + amount > _maxHealth) // –æ–≥—Ä–∞–Ω–∏—á–µ–Ω–∏–µ –Ω–∞ –º–∞–∫—Å–∏–º–∞–ª—å–Ω–æ –∑–∞–¥–∞–Ω–Ω–æ–µ –∑–¥–æ—Ä–æ–≤—å–µ
+            return;
+        Health += amount; // –¥–æ–±–∞–≤–ª–µ–Ω–∏–µ –∑–¥–æ—Ä–æ–≤—å—è
     }
 }

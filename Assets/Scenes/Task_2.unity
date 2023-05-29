@@ -523,7 +523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 692622970}
   player: {fileID: 1090491030}
-  healthSliderSpeed: 5
+  healthSliderSpeed: 35
 --- !u!1 &694981670
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,7 +895,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1090491030}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: ChangeAmountHealth
+        m_MethodName: AddHealth
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ddb2bab279f83478ecedfa69b3cf85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  _maxHealth: 100
 --- !u!212 &1090491031
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1261,12 +1261,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1090491030}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: ChangeAmountHealth
+        m_MethodName: TakeDamage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: -10
+          m_IntArgument: 10
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
